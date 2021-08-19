@@ -138,6 +138,24 @@ router.get('/products/bid/end/:pid/:uid', requiredAuth, checkUser, async (req, r
     res.redirect('/products/view/'+product._id+'/'+user._id)
 })
 
+// comment on a product
+router.post('/products/comment/:pid/:uid', requiredAuth, checkUser, async (req, res) => {
+    const product = await Product.findById({ _id: req.params.pid })
+    const user = await User.findById({ _id: req.params.uid })
+
+    const comment = req.body.comment
+    
+    var commentdata = {
+        commentby: user.name,
+        comment: comment
+    }
+
+    await Product.findByIdAndUpdate({ _id: req.params.pid }, {$push: { comments: commentdata } })
+    
+    req.flash('message', 'Your comment has been added successfully!')
+    res.redirect('/products/view/'+product._id+'/'+user._id)
+})
+
 // dashboard
 router.get('/dashboard/:uid', requiredAuth, checkUser, async (req, res) => {
     const allProducts = await Product.find({})

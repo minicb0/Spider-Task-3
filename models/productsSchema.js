@@ -50,7 +50,11 @@ const productSchema = new mongoose.Schema({
     ],
     usersBidPrice: [
         Number
-    ]
+    ],
+    comments: [{
+        commentby: String,
+        comment: String
+    }]
 });
 
 const Product = mongoose.model("PRODUCT", productSchema);

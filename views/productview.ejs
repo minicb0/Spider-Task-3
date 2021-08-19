@@ -83,11 +83,26 @@
                             </div>
                             <div class="usersDiv" style="width: 50%; overflow-y: auto; height: 400px;">
                                 <div class="textInputDiv">
-                                    <label for="comments"><strong>Add your comment</strong><i style="float: right;" class="fas fa-comment"></i></label>
-                                    <textarea type="text" id="comments" name="comments"
-                                        placeholder="Add your comment here..." rows="5" required style="margin-bottom: 0px;"></textarea>
-                                    <a href="#" class="buttonAnchor">Add</a>
+                                    <form action="/products/comment/<%= product._id %>/<%= currentUser._id %>" method="POST">
+                                        <label for="comment"><strong>Add your comment</strong><i style="float: right;" class="fas fa-comment"></i></label>
+                                        <textarea type="text" id="comment" name="comment"
+                                            placeholder="Add your comment here..." rows="5" required style="margin-bottom: 0px;"></textarea>
+                                        <button type="submit" class="buttonAnchor">Add</button>
+                                    </form>
                                 </div>
+                                <ul>
+                                    <% for (let i=0; i < product.comments.length; i++) { %>
+                                            <% if (currentUser.name == product.comments[i].commentby) { %>
+                                                <li style="background-color: #77f77f; color: #03a80e; width: 85%; float: right; margin: 3px;"> 
+                                                    <strong>You: </strong><%= product.comments[i].comment %> <br>
+                                                    <a href="#"><i style="float: right; margin-left: 5px; margin-top: 5px;" class="fas fa-trash iconLink"></i></a>
+                                                    <a href="#"><i style="float: right; margin-left: 5px; margin-top: 5px;" class="fas fa-edit iconLink"></i></a>
+                                                </li>
+                                            <% } else { %>
+                                                <li style="background-color: #8bf2f7; color: #048187; width: 85%; float: left; margin: 3px;"> <strong> <%= product.comments[i].commentby %>: </strong> <%= product.comments[i].comment %> </li> 
+                                            <% } %>
+                                    <% } %>
+                                </ul>
                             </div>
                         </div>
                         <% if (product.bidActive == true) { %>
