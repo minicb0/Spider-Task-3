@@ -95,8 +95,14 @@
                                             <% if (currentUser.name == product.comments[i].commentby) { %>
                                                 <li style="background-color: #77f77f; color: #03a80e; width: 85%; float: right; margin: 3px;"> 
                                                     <strong>You: </strong><%= product.comments[i].comment %> <br>
-                                                    <a href="#"><i style="float: right; margin-left: 5px; margin-top: 5px;" class="fas fa-trash iconLink"></i></a>
-                                                    <a href="#"><i style="float: right; margin-left: 5px; margin-top: 5px;" class="fas fa-edit iconLink"></i></a>
+                                                    <a href="/products/comment/delete/<%= product._id %>/<%= currentUser._id %>/<%= product.comments[i]._id %>"><i style="float: right; margin-left: 5px; margin-top: 5px; color: rgba(255, 0, 0, 0.726);" class="fas fa-trash iconLink"></i></a>
+                                                    <i style="float: right; margin-left: 5px; margin-top: 5px;" class="fas fa-edit iconLink edit"></i>
+                                                    <div class="textInputDiv editComment hide">
+                                                        <form action="/products/comment/edit/<%= product._id %>/<%= currentUser._id %>/<%= product.comments[i]._id %>" method="POST">
+                                                            <input type="text" name="editedComment" value="<%= product.comments[i].comment %>" width="80%">
+                                                            <button type="submit" class="buttonAnchor">Update</button>
+                                                        </form>
+                                                    </div>
                                                 </li>
                                             <% } else { %>
                                                 <li style="background-color: #8bf2f7; color: #048187; width: 85%; float: left; margin: 3px;"> <strong> <%= product.comments[i].commentby %>: </strong> <%= product.comments[i].comment %> </li> 
@@ -159,5 +165,13 @@
         </div>
     </div>
     <script src="/public/js/sidenav.js"></script>
+    <script>
+        var edit = document.getElementsByClassName('edit')
+        var editComment = document.getElementsByClassName('editComment')
+        for (let i = 0; i < edit.length; i++)
+        edit[i].addEventListener('click', () => {
+            editComment[i].classList.toggle('hide')
+        });
+    </script>
 </body>
 </html>

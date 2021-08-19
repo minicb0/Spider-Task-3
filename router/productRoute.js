@@ -156,6 +156,28 @@ router.post('/products/comment/:pid/:uid', requiredAuth, checkUser, async (req, 
     res.redirect('/products/view/'+product._id+'/'+user._id)
 })
 
+// editing a comment on a product
+router.post('/products/comment/edit/:pid/:uid/:cid', requiredAuth, checkUser, async (req, res) => {
+    const product = await Product.findById({ _id: req.params.pid })
+    const user = await User.findById({ _id: req.params.uid })
+
+    await Product.findOneAndUpdate({ _id: req.params.pid, 'comments._id': req.params.cid}, { $set: { 'comments.$.comment': req.body.editedComment } })
+    
+    req.flash('message', 'Your comment has been edited successfully!')
+    res.redirect('/products/view/'+product._id+'/'+user._id)
+})
+
+// deleting a comment on a product
+router.get('/products/comment/delete/:pid/:uid/:cid', requiredAuth, checkUser, async (req, res) => {
+    const product = await Product.findById({ _id: req.params.pid })
+    const user = await User.findById({ _id: req.params.uid })
+
+    await Product.findOneAndUpdate({ _id: req.params.pid}, { $pull: { comments: { '_id': req.params.cid }}})
+    
+    req.flash('message', 'Your comment has been deleted successfully!')
+    res.redirect('/products/view/'+product._id+'/'+user._id)
+})
+
 // dashboard
 router.get('/dashboard/:uid', requiredAuth, checkUser, async (req, res) => {
     const allProducts = await Product.find({})
