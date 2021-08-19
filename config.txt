@@ -1,3 +1,3 @@
 PORT=3000
-DATABASE=mongodb+srv://<username>:<password>@cluster0.yvupi.mongodb.net/<database>?retryWrites=true&w=majority
+DATABASE=mongodb+srv://<username>:<password>@cluster0.yvupi.mongodb.net/spidertask3?retryWrites=true&w=majority
 CLIENT_SECRET=thisisasecretandimnottellingyou
