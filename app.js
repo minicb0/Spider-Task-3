@@ -33,6 +33,7 @@ app.use(flash());
 // setting routes
 app.use(require('./router/indexRoute.js'));
 app.use(require('./router/productRoute.js'));
+app.use(require('./router/searchRoute.js'));
 
 // 404 page
 const { requiredAuth, checkUser } = require("./auth/authMiddleware.js")

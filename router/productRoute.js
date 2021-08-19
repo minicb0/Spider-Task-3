@@ -20,7 +20,7 @@ router.get('/products/add/:uid', requiredAuth, checkUser, async (req, res) => {
 // to add products
 router.post('/products/add/:uid', async (req, res) => {
     const user = await User.findById({ _id: req.params.uid })
-    const { productname, description, addedby, addedon, endtime, minimumbid, type, tags, optionTitle, optionImg } = req.body;
+    const { productname, description, addedby, addedon, endtime, minimumbid, type, optionTitle, optionImg } = req.body;
 
     if (!productname || !description || !addedby || !addedon || !endtime || !minimumbid || !type) {
         req.flash('message', 'Please fill all the fields')
@@ -31,6 +31,11 @@ router.post('/products/add/:uid', async (req, res) => {
     try {
         const bidActive = true
         var highestbid = minimumbid
+        var tags = req.body.tags
+        tags = tags.split(',')
+        for (i = 0; i< tags.length; i++) {
+            tags[i] = tags[i].trim();
+        }
         const product = new Product({ productname, description, addedby, addedon, endtime, minimumbid, highestbid, type, tags, optionTitle, optionImg, bidActive })
 
         const productRegistered = await product.save();
@@ -137,8 +142,11 @@ router.get('/products/bid/end/:pid/:uid', requiredAuth, checkUser, async (req, r
 router.get('/dashboard/:uid', requiredAuth, checkUser, async (req, res) => {
     const allProducts = await Product.find({})
     const user = await User.findById({ _id: req.params.uid })
-
-    res.render('dashboard', { allProducts, user, message: req.flash('message') })
+    var searchname
+    var searchtag
+    var searchtype = 'Search by Type'
+    var sort = 'Sort'
+    res.render('dashboard', { allProducts, searchname, searchtag, searchtype, sort, user, message: req.flash('message') })
 })
 
 // notifications 
