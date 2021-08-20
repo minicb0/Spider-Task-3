@@ -24,7 +24,7 @@ npm run start
 
 ## Hacker Mode:
 - [x] In the Public page add an option to search and filter the products based on Tags and Product name.
-- [ ] Users should be allowed to add comments for a particular post. The user who has created the comment should only have permission to delete and update the respective comment.
+- [x] Users should be allowed to add comments for a particular post. The user who has created the comment should only have permission to delete and update the respective comment.
 - [ ] Option for giving ratings to different products.
 - [x] For displaying the posts multiple options such as alphabetical, according to the highest bidder, etc should be present.
 
